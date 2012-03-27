@@ -47,11 +47,11 @@ The bundle ships with a file called `services.yml.sample` inside its `Resources`
 
 1. Create your own Health Check class. To understand how health checks work and what they should do take a look at the [Liip Monitor Bundle](https://github.com/liip/LiipMonitorBundle) `README.md` file. Your new health check must go into the bundle's `Check` folder.
 2. Add the sample configuration for the service into the `services.yml.sample` file.
-3. Add your health check name and the description of what it does into the `HEALTH_CHECKS.md` file from this project. **Please do so alphabetically**.
+3. Add your health check name and the description of what it does into the `HEALTH_CHECKS.md` file from this project. **PLEASE DO SO ALPHABETICALLY**.
 
 ## Available Health Checks ##
 
-To see a list of the health checks that this bundle provides please consult the file `HEALTH_CHECKS.md`.
+To see a list of the health checks provided by this bundle please consult the file `HEALTH_CHECKS.md`.
 
 # Note to contributors #
 
