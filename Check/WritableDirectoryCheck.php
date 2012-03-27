@@ -1,6 +1,6 @@
 <?php
 
-namespace SmartTrack\Component\Check;
+namespace Liip\MonitorExtraBundle\Check;
 
 use Liip\MonitorBundle\Check\Check;
 use Liip\MonitorBundle\Exception\CheckFailedException;

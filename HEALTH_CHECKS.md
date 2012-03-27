@@ -10,4 +10,4 @@ Checks if the extensions specified in the service configuration are enabled in y
 
 ## WritableDirectoryCheck ##
 
-Checks if the user executing the script is able to write in the given directoty.
+Checks if the user executing the script is able to write in the given directory.
