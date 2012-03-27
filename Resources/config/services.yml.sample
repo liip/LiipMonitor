@@ -1,4 +1,13 @@
 services:
+    monitor.check.custom_error_pages:
+        class: Liip\MonitorExtraBundle\Check\CustomErrorPagesCheck
+        arguments:
+            - [ 404, 500 ]
+            - %kernel.root_dir%
+            - %twig.exception_listener.controller%
+        tags:
+            - { name: monitor.check }
+
     monitor.check.deps_entries:
         class: Liip\MonitorExtraBundle\Check\DepsEntriesCheck
         arguments:

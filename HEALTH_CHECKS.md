@@ -1,5 +1,9 @@
 # Available Health Checks #
 
+## CustomErrorPagesCheck ##
+
+Checks if error pages have been customized for given error codes.
+
 ## DepsEntriesCheck ##
 
 Checks all entries from `deps` are defined in `deps.lock`.
