@@ -1,7 +1,30 @@
 services:
+    monitor.check.custom_error_pages:
+        class: Liip\MonitorExtraBundle\Check\CustomErrorPagesCheck
+        arguments:
+            - [ 404, 500 ]
+            - %kernel.root_dir%
+            - %twig.exception_listener.controller%
+        tags:
+            - { name: monitor.check }
+
+    monitor.check.deps_entries:
+        class: Liip\MonitorExtraBundle\Check\DepsEntriesCheck
+        arguments:
+            - %kernel.root_dir%
+        tags:
+            - { name: monitor.check }
+
     monitor.check.php_extensions:
         class: Liip\MonitorExtraBundle\Check\PhpExtensionsCheck
         arguments:
             - [ xhprof, apc, memcache ]
+        tags:
+            - { name: monitor.check }
+
+    monitor.check.writable_directory:
+        class: Liip\MonitorExtraBundle\Check\WritableDirectoryCheck
+        arguments:
+            - [ %kernel.root_dir%/../web/uploads, %kernel.root_dir%/cache ]
         tags:
             - { name: monitor.check }
