@@ -1,4 +1,11 @@
 services:
+    monitor.check.deps_entries:
+        class: Liip\MonitorExtraBundle\Check\DepsEntriesCheck
+        arguments:
+            - %kernel.root_dir%
+        tags:
+            - { name: monitor.check }
+
     monitor.check.php_extensions:
         class: Liip\MonitorExtraBundle\Check\PhpExtensionsCheck
         arguments:
