@@ -1,0 +1,7 @@
+services:
+    monitor.check.php_extensions:
+        class: Liip\MonitorExtraBundle\Check\PhpExtensionsCheck
+        arguments:
+            - [ xhprof, apc, memcache ]
+        tags:
+            - { name: monitor.check }
