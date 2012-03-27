@@ -12,3 +12,10 @@ services:
             - [ xhprof, apc, memcache ]
         tags:
             - { name: monitor.check }
+
+    monitor.check.writable_directory:
+        class: Liip\MonitorExtraBundle\Check\WritableDirectoryCheck
+        arguments:
+            - %kernel.root_dir%/../web/uploads
+        tags:
+            - { name: monitor.check }
