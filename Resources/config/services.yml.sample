@@ -25,6 +25,6 @@ services:
     monitor.check.writable_directory:
         class: Liip\MonitorExtraBundle\Check\WritableDirectoryCheck
         arguments:
-            - %kernel.root_dir%/../web/uploads
+            - [ %kernel.root_dir%/../web/uploads, %kernel.root_dir%/cache ]
         tags:
             - { name: monitor.check }

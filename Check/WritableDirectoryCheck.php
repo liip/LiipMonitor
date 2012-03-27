@@ -7,25 +7,25 @@ use Liip\MonitorBundle\Exception\CheckFailedException;
 use Liip\MonitorBundle\Result\CheckResult;
 
 /**
- * Check if the given directory is writable.
+ * Check if the given directories are writable.
  *
  * @author Cédric Girard <c.girard@lexik.fr>
  */
 class WritableDirectoryCheck extends Check
 {
     /**
-     * @var string
+     * @var array
      */
-    protected $path;
+    protected $directories;
 
     /**
      * Construct.
      *
-     * @param string $path
+     * @param array $directories
      */
-    public function __construct($path)
+    public function __construct($directories)
     {
-        $this->path = $path;
+        $this->directories = $directories;
     }
 
     /**
@@ -34,14 +34,19 @@ class WritableDirectoryCheck extends Check
     public function check()
     {
         try {
-            $user = exec("whoami");
+            $notWritable = array();
 
-            if (!is_writable($this->path)) {
-                throw new CheckFailedException(sprintf('The user "%s" is NOT able to write in "%s"', $user, $this->path));
+            foreach ($this->directories as $dir) {
+                if (!is_writable($dir)) {
+                    $notWritable[] = $dir;
+                }
             }
 
-            $message = sprintf('The user "%s" is able to write in "%s"', $user, $this->path);
-            $result = $this->buildResult($message, CheckResult::SUCCESS);
+            if (count($notWritable) > 0) {
+                throw new CheckFailedException(sprintf('The following directories are not writable: "%s"', implode('", "', $notWritable)));
+            }
+
+            $result = $this->buildResult('OK', CheckResult::SUCCESS);
 
         } catch (\Exception $e) {
             $result = $this->buildResult($e->getMessage(), CheckResult::FAILURE);
