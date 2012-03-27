@@ -43,6 +43,8 @@ The bundle ships with a file called `services.yml.sample` inside its `Resources`
 
 # Contributions #
 
+Fork this project, add a health check and then open a pull request.
+
 ## Creating new health checks ##
 
 1. Create your own Health Check class. To understand how health checks work and what they should do take a look at the [Liip Monitor Bundle](https://github.com/liip/LiipMonitorBundle) `README.md` file. Your new health check must go into the bundle's `Check` folder.
