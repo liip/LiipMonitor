@@ -46,10 +46,10 @@ class WritableDirectoryCheck extends Check
                 throw new CheckFailedException(sprintf('The following directories are not writable: "%s"', implode('", "', $notWritable)));
             }
 
-            $result = $this->buildResult('OK', CheckResult::SUCCESS);
+            $result = $this->buildResult('OK', CheckResult::OK);
 
         } catch (\Exception $e) {
-            $result = $this->buildResult($e->getMessage(), CheckResult::FAILURE);
+            $result = $this->buildResult($e->getMessage(), CheckResult::CRITICAL);
         }
 
         return $result;

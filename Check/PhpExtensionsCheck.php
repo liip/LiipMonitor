@@ -26,9 +26,9 @@ class PhpExtensionsCheck extends Check
                     throw new CheckFailedException(sprintf('Extension %s not loaded', $extension));
                 }
             }
-            return $this->buildResult('OK', CheckResult::SUCCESS);
+            return $this->buildResult('OK', CheckResult::OK);
         } catch (\Exception $e) {
-            return $this->buildResult(sprintf('KO - %s', $e->getMessage()), CheckResult::FAILURE);
+            return $this->buildResult(sprintf('KO - %s', $e->getMessage()), CheckResult::CRITICAL);
         }
     }
 
