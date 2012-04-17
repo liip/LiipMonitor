@@ -2,7 +2,7 @@
 
 namespace Liip\MonitorExtraBundle\Check;
 
-use \Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\Kernel;
 use Liip\MonitorBundle\Check\Check;
 use Liip\MonitorBundle\Exception\CheckFailedException;
 use Liip\MonitorBundle\Result\CheckResult;
@@ -21,18 +21,6 @@ use Liip\MonitorBundle\Result\CheckResult;
  */
 class SymfonyVersionCheck extends Check
 {
-    /**
-     * @var array
-     */
-    protected $directories;
-
-    /**
-     * Construct.
-     */
-    public function __construct()
-    {
-
-    }
 
     /**
      * @see Liip\MonitorBundle\Check.CheckInterface::check()
@@ -45,10 +33,10 @@ class SymfonyVersionCheck extends Check
             if (version_compare($currentVersion, $latestRelease) >= 0) {
                 $result = $this->buildResult('OK', CheckResult::OK);
             } else {
-                $result = $this->buildResult('Update to ' . $latestRelease . ' from ' . $currentVersion, CheckResult::CRITICAL);
+                $result = $this->buildResult('Update to ' . $latestRelease . ' from ' . $currentVersion, CheckResult::WARNING);
             }
         } catch (\Exception $e) {
-            $result = $this->buildResult($e->getMessage(), CheckResult::CRITICAL);
+            $result = $this->buildResult($e->getMessage(), CheckResult::UNKNOWN);
         }
 
         return $result;
@@ -61,28 +49,37 @@ class SymfonyVersionCheck extends Check
 
         // Get GitHub JSON request
 
-        $githubUrl = 'http://github.com/api/v2/json/repos/show/' . $githubUser . '/' . $githubRepo . '/tags';
+        $githubUrl = 'https://api.github.com/repos/' . $githubUser . '/' . $githubRepo . '/tags';
         $githubJSONResponse = file_get_contents($githubUrl);
 
         // Convert it to a PHP object
 
         $githubResponseArray = json_decode($githubJSONResponse, true);
-        $tagList = array_keys($githubResponseArray["tags"]);
+        if (empty($githubResponseArray)) {
+            throw new Exception("No valid response or no tags received from GitHub.");
+        }
 
-        // Filter out non final tags
+        $tags = array();
 
-        $filteredTagList = array_filter($tagList, function($tag)
-        {
-            return !stripos($tag, "-") && !stripos($tag, "PR") && !stripos($tag, "BETA") && stripos($tag, "v2.0") === 0;
-        });
+        foreach ($githubResponseArray as $tag) {
+            $tags[] = $tag['name'];
+        }
 
         // Sort tags
 
-        natcasesort($filteredTagList);
+        natsort($tags);
+
+        // Filter out non final tags
+
+        $filteredTagList = array_filter($tags, function($tag)
+        {
+            return !stripos($tag, "PR");
+        });
 
         // The first one is the last stable release for Symfony 2
 
         $reverseFilteredTagList = array_reverse($filteredTagList);
+
         return str_replace("v", "", $reverseFilteredTagList[0]);
     }
 
