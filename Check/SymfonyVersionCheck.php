@@ -10,6 +10,13 @@ use Liip\MonitorBundle\Result\CheckResult;
 /**
  * Checks the version of this website against the latest stable release.
  *
+ * Add this to your config.yml
+ *
+ *     monitor.check.symfony_version:
+ *         class: Liip\MonitorExtraBundle\Check\SymfonyVersionCheck
+ *         tags:
+ *             - { name: monitor.check }
+ *
  * @author Roderik van der Veer <roderik@vanderveer.be>
  */
 class SymfonyVersionCheck extends Check
