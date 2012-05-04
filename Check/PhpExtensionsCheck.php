@@ -18,6 +18,9 @@ class PhpExtensionsCheck extends Check
         $this->extensions = $extensions;
     }
 
+    /**
+     * @see Liip\MonitorBundle\Check\CheckInterface::check()
+     */
     public function check()
     {
         try {
@@ -32,6 +35,9 @@ class PhpExtensionsCheck extends Check
         }
     }
 
+    /**
+     * @see Liip\MonitorBundle\Check\CheckInterface::getName()
+     */
     public function getName()
     {
         return "PHP Extensions Health Check";

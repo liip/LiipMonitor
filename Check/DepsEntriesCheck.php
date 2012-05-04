@@ -29,7 +29,7 @@ class DepsEntriesCheck extends Check
     }
 
     /**
-     * @see Liip\MonitorBundle\Check.CheckInterface::check()
+     * @see Liip\MonitorBundle\Check\CheckInterface::check()
      */
     public function check()
     {
@@ -63,7 +63,7 @@ class DepsEntriesCheck extends Check
     }
 
     /**
-     * @see Liip\MonitorBundle\Check.Check::getName()
+     * @see Liip\MonitorBundle\Check\Check::getName()
      */
     public function getName()
     {
