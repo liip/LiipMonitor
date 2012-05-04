@@ -15,6 +15,14 @@ services:
         tags:
             - { name: monitor.check }
 
+    monitor.check.memcache:
+        class: Liip\MonitorExtraBundle\Check\MemcacheCheck
+        arguments:
+            host: localhost
+            port: 11211
+        tags:
+            - { name: monitor.check }
+
     monitor.check.php_extensions:
         class: Liip\MonitorExtraBundle\Check\PhpExtensionsCheck
         arguments:
