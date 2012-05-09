@@ -30,6 +30,13 @@ services:
         tags:
             - { name: monitor.check }
 
+    monitor.check.processActive:
+        class: Liip\MonitorExtraBundle\Check\ProcessActiveCheck
+        arguments:
+            command: apache2
+        tags:
+            - { name: monitor.check }
+
     monitor.check.writable_directory:
         class: Liip\MonitorExtraBundle\Check\WritableDirectoryCheck
         arguments:

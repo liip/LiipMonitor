@@ -16,6 +16,10 @@ Checks if a memcache server is running on the host and port specified in the ser
 
 Checks if the extensions specified in the service configuration are enabled in your PHP installation.
 
+## ProcessActiveCheck ##
+
+Checks if a process containing a phrase specified in the service configuration is running on the machine.
+
 ## WritableDirectoryCheck ##
 
 Checks if the user executing the script is able to write in the given directory.
