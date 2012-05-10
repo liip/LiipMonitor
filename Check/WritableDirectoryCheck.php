@@ -29,7 +29,7 @@ class WritableDirectoryCheck extends Check
     }
 
     /**
-     * @see Liip\MonitorBundle\Check.CheckInterface::check()
+     * @see Liip\MonitorBundle\Check\CheckInterface::check()
      */
     public function check()
     {
@@ -56,7 +56,7 @@ class WritableDirectoryCheck extends Check
     }
 
     /**
-     * @see Liip\MonitorBundle\Check.Check::getName()
+     * @see Liip\MonitorBundle\Check\CheckInterface::getName()
      */
     public function getName()
     {

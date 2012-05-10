@@ -8,6 +8,10 @@ Checks if error pages have been customized for given error codes.
 
 Checks all entries from `deps` are defined in `deps.lock`.
 
+## MemcacheCheck ##
+
+Checks if a memcache server is running on the host and port specified in the service configuration.
+
 ## PhpExtensionsCheck ##
 
 Checks if the extensions specified in the service configuration are enabled in your PHP installation.
