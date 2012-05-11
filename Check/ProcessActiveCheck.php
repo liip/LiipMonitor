@@ -24,7 +24,7 @@ class ProcessActiveCheck extends Check
     public function check()
     {
         try {
-            exec('ps -ef | grep ' . $this->command . ' | grep -v grep', $output, $return);
+            exec('ps -ef | grep ' . escapeshellarg($this->command) . ' | grep -v grep', $output, $return);
             if ($return == 1) {
                 throw new CheckFailedException(sprintf('There is no process running containing "%s"', $this->command));
             }
