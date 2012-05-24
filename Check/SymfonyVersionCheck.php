@@ -4,7 +4,6 @@ namespace Liip\MonitorExtraBundle\Check;
 
 use Symfony\Component\HttpKernel\Kernel;
 use Liip\MonitorBundle\Check\Check;
-use Liip\MonitorBundle\Exception\CheckFailedException;
 use Liip\MonitorBundle\Result\CheckResult;
 
 /**
@@ -23,7 +22,7 @@ class SymfonyVersionCheck extends Check
 {
 
     /**
-     * @see Liip\MonitorBundle\Check.CheckInterface::check()
+     * {@inheritdoc}
      */
     public function check()
     {
@@ -44,12 +43,9 @@ class SymfonyVersionCheck extends Check
 
     private function getLatestSymfonyVersion()
     {
-        $githubUser = 'symfony';
-        $githubRepo = 'symfony';
-
         // Get GitHub JSON request
 
-        $githubUrl = 'https://api.github.com/repos/' . $githubUser . '/' . $githubRepo . '/tags';
+        $githubUrl = 'https://api.github.com/repos/symfony/symfony/tags';
         $githubJSONResponse = file_get_contents($githubUrl);
 
         // Convert it to a PHP object
@@ -71,8 +67,7 @@ class SymfonyVersionCheck extends Check
 
         // Filter out non final tags
 
-        $filteredTagList = array_filter($tags, function($tag)
-        {
+        $filteredTagList = array_filter($tags, function($tag) {
             return !stripos($tag, "PR");
         });
 
@@ -84,7 +79,7 @@ class SymfonyVersionCheck extends Check
     }
 
     /**
-     * @see Liip\MonitorBundle\Check.Check::getName()
+     * {@inheritdoc}
      */
     public function getName()
     {
