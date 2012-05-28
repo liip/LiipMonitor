@@ -3,6 +3,7 @@
 namespace Liip\MonitorExtraBundle\Check;
 
 use Symfony\Component\HttpKernel\Kernel;
+use Exception;
 use Liip\MonitorBundle\Check\Check;
 use Liip\MonitorBundle\Result\CheckResult;
 
@@ -63,13 +64,15 @@ class SymfonyVersionCheck extends Check
 
         // Sort tags
 
-        natsort($tags);
+        usort($tags, "version_compare");
 
         // Filter out non final tags
 
         $filteredTagList = array_filter($tags, function($tag) {
-            return !stripos($tag, "PR");
+            return !stripos($tag, "PR") && !stripos($tag, "RC") && !stripos($tag, "BETA");
         });
+
+        var_dump($filteredTagList);
 
         // The first one is the last stable release for Symfony 2
 
