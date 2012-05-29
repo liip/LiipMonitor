@@ -72,8 +72,6 @@ class SymfonyVersionCheck extends Check
             return !stripos($tag, "PR") && !stripos($tag, "RC") && !stripos($tag, "BETA");
         });
 
-        var_dump($filteredTagList);
-
         // The first one is the last stable release for Symfony 2
 
         $reverseFilteredTagList = array_reverse($filteredTagList);
