@@ -1,0 +1,26 @@
+{
+    "name": "liip/monitor-extra-bundle",
+    "type": "symfony-bundle",
+    "description": "Liip Monitor Extra Bundle",
+    "keywords": ["monitoring", "monitor", "check", "health"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alvaro Videla",
+            "email": "alvaro.videla@liip.ch"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://github.com/liip/LiipMonitorExtraBundle/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": ">2.0,<2.2-dev",
+        "liip/monitor-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Liip\\MonitorExtraBundle": "" }
+    },
+    "target-dir": "Liip/MonitorExtraBundle"
+}
