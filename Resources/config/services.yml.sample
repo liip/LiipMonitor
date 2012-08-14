@@ -43,3 +43,10 @@ services:
             - [ %kernel.root_dir%/../web/uploads, %kernel.root_dir%/cache ]
         tags:
             - { name: monitor.check }
+            
+    monitor.check.disc_usage:
+        class: Liip\MonitorExtraBundle\Check\DiscUsageCheck
+        arguments:
+            maximum_disc_usage_in_percent: 50
+        tags:
+            - { name: monitor.check }            
