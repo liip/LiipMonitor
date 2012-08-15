@@ -23,7 +23,7 @@ class DiscUsageCheck extends Check
         $du = $dt - $df;
         $dp = ($du / $dt) * 100;
 
-        if($dp >= $this->maximum_disc_usage_in_percent) {
+        if ($dp >= $this->maximum_disc_usage_in_percent) {
             return $this->buildResult(sprintf('Disc usage LOW - %s', $e->getMessage()), CheckResult::CRITICAL);
         }
         return $this->buildResult('OK', CheckResult::OK);
