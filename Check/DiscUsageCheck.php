@@ -7,12 +7,18 @@ use Liip\MonitorBundle\Result\CheckResult;
 
 class DiscUsageCheck extends Check
 {
-    protected $maximum_disc_usage_in_percent;
+    /**
+     * Maximum disc usage in percentage
+     *
+     * @var int
+     */
+    protected $maxDiscUsage;
+        
     protected $path;
 
-    public function __construct($maximum_disc_usage_in_percent, $path = "/")
+    public function __construct($maxDiscUsage, $path = "/")
     {
-        $this->maximum_disc_usage_in_percent = (int)$maximum_disc_usage_in_percent;
+        $this->maxDiscUsage = (int)$maximum_disc_usage_in_percent;
         $this->path = $path;
     }
 
@@ -23,7 +29,7 @@ class DiscUsageCheck extends Check
         $du = $dt - $df;
         $dp = ($du / $dt) * 100;
 
-        if ($dp >= $this->maximum_disc_usage_in_percent) {
+        if ($dp >= $this->maxDiscUsage) {
             return $this->buildResult(sprintf('Disc usage LOW - %s', $e->getMessage()), CheckResult::CRITICAL);
         }
         return $this->buildResult('OK', CheckResult::OK);
