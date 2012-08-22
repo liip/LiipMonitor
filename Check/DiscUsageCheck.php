@@ -18,7 +18,7 @@ class DiscUsageCheck extends Check
 
     public function __construct($maxDiscUsage, $path = "/")
     {
-        $this->maxDiscUsage = (int)$maximum_disc_usage_in_percent;
+        $this->maxDiscUsage = (int)$maxDiscUsage;
         $this->path = $path;
     }
 
