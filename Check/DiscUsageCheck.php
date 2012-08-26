@@ -16,10 +16,10 @@ class DiscUsageCheck extends Check
         
     protected $path;
 
-    public function __construct($maxDiscUsage, $path = "/")
+    public function __construct($params = array())
     {
-        $this->maxDiscUsage = (int)$maxDiscUsage;
-        $this->path = $path;
+        $this->maxDiscUsage = (int)$params[0];
+        $this->path = isset($params[1]) ? $params[1] : '/';
     }
 
     public function check()

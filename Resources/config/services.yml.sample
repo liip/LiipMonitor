@@ -46,7 +46,6 @@ services:
             
     monitor.check.disc_usage:
         class: Liip\MonitorExtraBundle\Check\DiscUsageCheck
-        arguments:
-            maxDiscUsage: 50
+        arguments: [%monitor.disc.max_usage%, %monitor.disc.max_usage%]            
         tags:
             - { name: monitor.check }            
