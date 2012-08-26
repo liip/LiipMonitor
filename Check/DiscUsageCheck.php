@@ -16,10 +16,10 @@ class DiscUsageCheck extends Check
         
     protected $path;
 
-    public function __construct($params = array())
+    public function __construct($maxDiscUsage, $path)
     {
-        $this->maxDiscUsage = (int)$params[0];
-        $this->path = isset($params[1]) ? $params[1] : '/';
+        $this->maxDiscUsage = (int)$maxDiscUsage;
+        $this->path = $path;
     }
 
     public function check()
@@ -30,7 +30,7 @@ class DiscUsageCheck extends Check
         $dp = ($du / $dt) * 100;
 
         if ($dp >= $this->maxDiscUsage) {
-            return $this->buildResult(sprintf('Disc usage LOW - %s', $e->getMessage()), CheckResult::CRITICAL);
+            return $this->buildResult(sprintf('KO - Disc usage too high: %2d percentage.', $dp), CheckResult::CRITICAL);
         }
         return $this->buildResult('OK', CheckResult::OK);
     }
