@@ -1,10 +1,10 @@
 <?php
 
-namespace Liip\MonitorExtraBundle\Check;
+namespace Liip\Monitor\Check;
 
-use Liip\MonitorBundle\Check\Check;
-use Liip\MonitorBundle\Exception\CheckFailedException;
-use Liip\MonitorBundle\Result\CheckResult;
+use Liip\Monitor\Check\Check;
+use Liip\Monitor\Exception\CheckFailedException;
+use Liip\Monitor\Result\CheckResult;
 
 class PhpExtensionsCheck extends Check
 {
