@@ -20,5 +20,10 @@
     "autoload": {
         "psr-0": { "Liip\\Monitor": "" }
     },
-    "target-dir": "Liip/Monitor"
+    "target-dir": "Liip/Monitor",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.5.x-dev"
+        }
+    }
 }
