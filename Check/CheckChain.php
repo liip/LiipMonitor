@@ -51,7 +51,7 @@ final class CheckChain
     public function getCheckById($id)
     {
         if (!isset($this->checks[$id])) {
-            throw new \InvalidArgumentException(sprintf("Check with id: %s doesn't exists", $id));
+            throw new \InvalidArgumentException(sprintf("Check with id: %s doesn't exist", $id));
         }
 
         return $this->checks[$id];
