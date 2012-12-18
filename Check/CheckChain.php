@@ -56,4 +56,38 @@ final class CheckChain
 
         return $this->checks[$id];
     }
+
+    /**
+     * @param string $name
+     * @return array
+     */
+    public function getChecksByGroup($name)
+    {
+        $checks = array();
+
+        foreach ($this->checks as $id => $check) {
+            if ($check->getGroup() === $name) {
+                $checks[] = $id;
+            }
+        }
+
+        return $checks;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGroups()
+    {
+        $groups = array();
+
+        foreach ($this->checks as $check) {
+
+            if (!in_array($check->getGroup(), $groups)) {
+                $groups[] = $check->getGroup();
+            }
+        }
+
+        return $groups;
+    }
 }
