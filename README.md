@@ -11,7 +11,7 @@ also provides a set of health check implementations (see the list below).
 
 ## Installation ##
 
-Th get the source of this library simply use git:
+To get the source of this library simply use git:
 
     # get source
     git clone git://github.com/liip/LiipMonitor.git
