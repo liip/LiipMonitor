@@ -2,6 +2,7 @@
 
 namespace Liip\Monitor\Check;
 
+use Liip\Monitor\Result\CheckResult;
 class Runner
 {
     protected $chain;
@@ -40,6 +41,28 @@ class Runner
         $results = array();
         foreach ($this->chain->getChecks() as $id => $checkService) {
             $results[$id] = $this->runCheck($checkService);
+        }
+
+        return $results;
+    }
+
+    /**
+     * @return array
+     */
+    public function runAllChecksByGroup()
+    {
+        $results = array();
+        $groups = $this->chain->getGroups();
+
+        foreach ($groups as $group) {
+            $results[$group] = CheckResult::OK;
+        }
+
+        foreach ($this->chain->getChecks() as $id => $checkService) {
+            $check = $this->runCheck($checkService);
+            if ($check->getStatus() > $results[$checkService->getGroup()]) {
+                $results[$checkService->getGroup()] = $check;
+            }
         }
 
         return $results;
