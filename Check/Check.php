@@ -6,12 +6,20 @@ use Liip\Monitor\Result\CheckResult;
 
 abstract class Check implements CheckInterface
 {
-     /**
+    /**
      * {@inheritdoc}
      */
     public function getName()
     {
         return get_called_class();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getGroup()
+    {
+        return 'default';
     }
 
     /**
