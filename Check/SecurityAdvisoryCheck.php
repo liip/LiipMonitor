@@ -20,12 +20,17 @@ class SecurityAdvisoryCheck extends Check
     protected $lockFilePath;
 
     /**
-     * Construct.
-     *
+     * @var SecurityChecker
+     */
+    protected $securityChecker;
+
+    /**
+     * @param SecurityChecker $securityChecker
      * @param string $kernelRootDir
      */
-    public function __construct($lockFilePath)
+    public function __construct(SecurityChecker $securityChecker, $lockFilePath)
     {
+        $this->securityChecker = $securityChecker;
         $this->lockFilePath = $lockFilePath;
     }
 
@@ -54,8 +59,7 @@ class SecurityAdvisoryCheck extends Check
             throw new CheckFailedException("No composer lock file found");
         }
 
-        $checker = new SecurityChecker();
-        $alerts = $checker->check($this->lockFilePath, 'json');
+        $alerts = $this->securityChecker->check($this->lockFilePath, 'json');
 
         return json_decode($alerts);
     }
