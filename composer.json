@@ -17,6 +17,9 @@
     "require": {
         "php": ">=5.3.3"
     },
+    "suggest": {
+        "sensiolabs/security-checker": "Required for Security Advisory Checker"
+    },
     "autoload": {
         "psr-0": { "Liip\\Monitor": "" }
     },
