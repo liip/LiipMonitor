@@ -3,6 +3,7 @@
 namespace Liip\Monitor\Check;
 
 use Liip\Monitor\Result\CheckResult;
+
 class Runner
 {
     protected $chain;

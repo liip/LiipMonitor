@@ -26,7 +26,7 @@ class SecurityAdvisoryCheck extends Check
 
     /**
      * @param SecurityChecker $securityChecker
-     * @param string $kernelRootDir
+     * @param string $lockFilePath
      */
     public function __construct(SecurityChecker $securityChecker, $lockFilePath)
     {
