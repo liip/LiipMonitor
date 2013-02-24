@@ -22,7 +22,7 @@ class DiscUsageCheck extends Check
     }
 
     public function check()
-    {      
+    {
         $df = disk_free_space($this->path);
         $dt = disk_total_space($this->path);
         $du = $dt - $df;
@@ -38,7 +38,4 @@ class DiscUsageCheck extends Check
     {
         return "Disc Usage Health Check";
     }
-
-
-
 }

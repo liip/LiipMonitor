@@ -80,7 +80,7 @@ class CheckResult
      * @static
      * @return array
      */
-    static public function getStatusList()
+    public static function getStatusList()
     {
         return array(
             self::OK       => 'check_result_ok',
