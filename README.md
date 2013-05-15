@@ -44,6 +44,15 @@ but hide implementation details, similar to [status.github.com](http://status.gi
 
 Checks if the maximum disc usage in percentage is reached.
 
+### DoctrineDbalCheck ###
+
+Checks if a doctrine dbal server is running.
+
+### HttpServiceCheck ###
+
+Checks if an http server is running on the host, port and path specified in the service configuration,
+returning the expected status code and content.
+
 ### MemcacheCheck ###
 
 Checks if a memcache server is running on the host and port specified in the service configuration.
@@ -55,6 +64,10 @@ Checks if the extensions specified in the service configuration are enabled in y
 ### ProcessActiveCheck ###
 
 Checks if a process containing a phrase specified in the service configuration is running on the machine.
+
+### SecurityAdvisoryCheck ###
+
+Checks any composer dependency has an open security advisory.
 
 ### WritableDirectoryCheck ###
 
