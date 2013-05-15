@@ -36,6 +36,6 @@ class DiscUsageCheck extends Check
 
     public function getName()
     {
-        return "Disc Usage Health Check";
+        return "Disc Usage Health";
     }
 }

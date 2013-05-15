@@ -82,6 +82,6 @@ class HttpServiceCheck extends Check
      */
     public function getName()
     {
-        return 'HttpService';
+        return 'Http Service';
     }
 }
