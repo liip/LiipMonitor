@@ -51,9 +51,9 @@ class HttpServiceCheck extends Check
      */
     public function check()
     {
-        $fp = fsockopen($this->host, $this->port, $errno, $errstr, 10);
+        $fp = @fsockopen($this->host, $this->port, $errno, $errstr, 10);
         if (!$fp) {
-            throw new CheckFailedException(sprintf('No http service running at host %s on port %s', $this->host, $this->port));
+            $result = $this->buildResult(sprintf('No http service running at host %s on port %s', $this->host, $this->port), CheckResult::CRITICAL);
         } else {
             $header = "GET {$this->path} HTTP/1.1\r\n";
             $header .= "Host: {$this->host}\r\n";
