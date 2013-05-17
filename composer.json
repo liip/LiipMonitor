@@ -10,12 +10,19 @@
             "email": "alvaro.videla@liip.ch"
         },
         {
+            "name": "Liip AG",
+            "homepage": "http://www.liip.ch/"
+        },
+        {
             "name": "PHP Community",
             "homepage": "https://github.com/liip/LiipMonitor/contributors"
         }
     ],
     "require": {
         "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "sensiolabs/security-checker": "dev-master"
     },
     "suggest": {
         "sensiolabs/security-checker": "Required for Security Advisory Checker"
