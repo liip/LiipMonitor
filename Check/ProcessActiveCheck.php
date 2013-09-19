@@ -9,13 +9,16 @@ use Liip\Monitor\Result\CheckResult;
 class ProcessActiveCheck extends Check
 {
     /**
-     * @var string
+     * @var array
      */
-    private $command;
+    private $commands;
 
-    public function __construct($command)
+    public function __construct($commands)
     {
-        $this->command = $command;
+        if (!is_array($commands)) {
+            $commands = array($commands);
+        }
+        $this->commands = $commands;
     }
 
     /**
@@ -24,9 +27,11 @@ class ProcessActiveCheck extends Check
     public function check()
     {
         try {
-            exec('ps -ef | grep ' . escapeshellarg($this->command) . ' | grep -v grep', $output, $return);
-            if ($return == 1) {
-                throw new CheckFailedException(sprintf('There is no process running containing "%s"', $this->command));
+            foreach ($this->commands as $command) {
+                exec('ps -ef | grep ' . escapeshellarg($command) . ' | grep -v grep', $output, $return);
+                if ($return == 1) {
+                    throw new CheckFailedException(sprintf('There is no process running containing "%s"', $command));
+                }
             }
             $result = $this->buildResult('OK', CheckResult::OK);
         } catch (\Exception $e) {
@@ -41,6 +46,6 @@ class ProcessActiveCheck extends Check
      */
     public function getName()
     {
-        return 'Process Active: ' . $this->command;
+        return 'Process Active';
     }
 }
