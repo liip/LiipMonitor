@@ -82,6 +82,6 @@ class HttpServiceCheck extends Check
      */
     public function getName()
     {
-        return 'Http Service';
+        return 'Http Service ('.$this->host.')';
     }
 }
