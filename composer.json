@@ -25,7 +25,8 @@
         "sensiolabs/security-checker": "dev-master"
     },
     "suggest": {
-        "sensiolabs/security-checker": "Required for Security Advisory Checker"
+        "sensiolabs/security-checker": "Required for Security Advisory Checker",
+        "videlalvaro/php-amqplib": "Required for RabbitMQ Checker"
     },
     "autoload": {
         "psr-0": { "Liip\\Monitor": "" }
