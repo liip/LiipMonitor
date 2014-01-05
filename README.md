@@ -30,13 +30,13 @@ Get the composer installer if its not yet installed on your system and run ``upd
     # install dependencies
     curl -s http://getcomposer.org/installer | php
     php composer.phar update liip/monitor
-    
-    
+
+
 ## Check groups ##
 
 Checks can be grouped by implementing the `getGroup` method of the `CheckInterface`.
 By grouping checks it's possible to implement end-user status pages which provide feedback
-but hide implementation details, similar to [status.github.com](http://status.github.com).  
+but hide implementation details, similar to [status.github.com](http://status.github.com).
 
 ## Available Health Checks ##
 
@@ -57,6 +57,10 @@ returning the expected status code and content.
 
 Checks if a memcache server is running on the host and port specified in the service configuration.
 
+### RedisCheck ###
+
+Checks if a redis server is running on the host and port specified in the service configuration.
+
 ### PhpExtensionsCheck ###
 
 Checks if the extensions specified in the service configuration are enabled in your PHP installation.
@@ -72,6 +76,11 @@ Checks any composer dependency has an open security advisory.
 ### WritableDirectoryCheck ###
 
 Checks if the user executing the script is able to write in the given directory.
+
+### RabbitMQCheck ###
+
+Checks if a rabbitmq server is running on the host and port specified in the service configuration,
+for declared user/password/vhost.
 
 ## Writing Health Checks ##
 
