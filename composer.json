@@ -26,6 +26,7 @@
     },
     "suggest": {
         "sensiolabs/security-checker": "Required for Security Advisory Checker",
+        "predis/predis": "Required for Redis Checker",
         "videlalvaro/php-amqplib": "Required for RabbitMQ Checker"
     },
     "autoload": {
