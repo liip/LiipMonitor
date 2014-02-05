@@ -24,11 +24,17 @@ class PhpExtensionsCheck extends Check
     public function check()
     {
         try {
+            $notLoaded = array();
             foreach ($this->extensions as $extension) {
                 if (!extension_loaded($extension)) {
-                    throw new CheckFailedException(sprintf('Extension %s not loaded', $extension));
+                    $notLoaded[] = $extension;
                 }
             }
+
+            if (count($notLoaded) > 0) {
+                throw new CheckFailedException(sprintf('The following extensions are not loaded: "%s"', implode('", "', $notLoaded)));
+            }
+
             return $this->buildResult('OK', CheckResult::OK);
         } catch (\Exception $e) {
             return $this->buildResult(sprintf('KO - %s', $e->getMessage()), CheckResult::CRITICAL);
