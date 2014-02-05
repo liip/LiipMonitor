@@ -34,12 +34,27 @@ class MemcacheCheck extends Check
     public function check()
     {
         try {
-            $memcache = new \Memcache();
-            $memcache->addServer($this->host, $this->port);
-            $stats = @$memcache->getExtendedStats();
+            if (class_exists(('\Memcache'))) {
+                $memcache = new \Memcache();
+                $memcache->addServer($this->host, $this->port);
+                $stats = @$memcache->getExtendedStats();
+            } elseif (class_exists('\Memcached')) {
+                $memcached = new \Memcached();
+                $memcached->addServer($this->host, $this->port);
+                $stats = @$memcached->getStats();
+            } else {
+                throw new CheckFailedException(
+                    'No PHP extension (\Memcache or \Memcached) installed'
+                );
+            }
+
             $available = $stats[$this->host . ':' . $this->port] !== false;
             if (!$available && !@$memcache->connect($this->host, $this->port)) {
-                throw new CheckFailedException(sprintf('No memcache server running at host %s on port %s', $this->host, $this->port));
+                throw new CheckFailedException(sprintf(
+                    'No memcache server running at host %s on port %s',
+                    $this->host,
+                    $this->port
+                ));
             }
             $result = $this->buildResult('OK', CheckResult::OK);
         } catch (\Exception $e) {
