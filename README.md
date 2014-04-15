@@ -1,6 +1,7 @@
 # Liip Monitor #
 
-This library provides shareable and reusable health checks
+This library provides shareable and reusable health checks. It ha been deprecated
+in favor of [zendframework/ZendDiagnostics](https://github.com/zendframework/ZendDiagnostics).
 
 For integration into Symfony2 see the [Liip Monitor Bundle](https://github.com/liip/LiipMonitorBundle).
 
