@@ -5,45 +5,35 @@ namespace Liip\Monitor\Check;
 use Liip\Monitor\Check\Check;
 use Liip\Monitor\Exception\CheckFailedException;
 use Liip\Monitor\Result\CheckResult;
+use InvalidArgumentException;
 
 class HttpServiceCheck extends Check
 {
     /**
      * @var string
      */
-    protected $host;
+    protected $hosts;
 
     /**
-     * @var int
-     */
-    protected $port;
-
-    /**
-     * @var string
-     */
-    protected $path;
-
-    /**
-     * @var int
-     */
-    protected $statusCode;
-
-    /**
-     * @var int
-     */
-    protected $content;
-
-    /**
-     * @param string $host
+     * @param array $host
      * @param int $port
      */
-    public function __construct($host, $port = 80, $path = '/', $statusCode = 200, $content = null)
+    public function __construct($hosts)
     {
-        $this->host = $host;
-        $this->port = $port;
-        $this->path = $path;
-        $this->statusCode = $statusCode;
-        $this->content = $content;
+        if (!is_array($hosts)) {
+            $host    = func_get_arg(0);
+            $numArgs = func_num_args();
+            $hosts   = array();
+            $hosts['default'] = array(
+                'host'       => $host,
+                'port'       => $numArgs >= 1 ? func_get_arg(1) : 80,
+                'path'       => $numArgs >= 2 ? func_get_arg(2) : '/',
+                'statusCode' => $numArgs >= 3 ? func_get_arg(3) : 200,
+                'content'    => $numArgs >= 4 ? func_get_arg(4) : null,
+            );
+        }
+
+        $this->setHosts($hosts);
     }
 
     /**
@@ -51,30 +41,119 @@ class HttpServiceCheck extends Check
      */
     public function check()
     {
-        $fp = @fsockopen($this->host, $this->port, $errno, $errstr, 10);
-        if (!$fp) {
-            $result = $this->buildResult(sprintf('No http service running at host %s on port %s', $this->host, $this->port), CheckResult::CRITICAL);
-        } else {
-            $header = "GET {$this->path} HTTP/1.1\r\n";
-            $header .= "Host: {$this->host}\r\n";
-            $header .= "Connection: close\r\n\r\n";
-            fputs($fp, $header);
-            $str = '';
-            while (!feof($fp)) {
-                $str .= fgets($fp, 1024);
-            }
-            fclose($fp);
+        try {
+            foreach ($this->hosts as $alias => $options) {
+                $fp = @fsockopen($options['host'], $options['port'], $errno, $errstr, 10);
+                if (!$fp) {
+                    $message = 'No http service \'%s\' running at host %s on port %s';
+                    throw new CheckFailedException(
+                        sprintf($message, $alias, $options['host'], $options['port'])
+                    );
+                } else {
+                    $header = "GET {$options['path']} HTTP/1.1\r\n";
+                    $header .= "Host: {$options['host']}\r\n";
+                    $header .= "Connection: close\r\n\r\n";
+                    fputs($fp, $header);
+                    $str = '';
+                    while (!feof($fp)) {
+                        $str .= fgets($fp, 1024);
+                    }
 
-            if ($this->statusCode && strpos($str, "HTTP/1.1 {$this->statusCode}") !== 0) {
-                $result = $this->buildResult("Status code {$this->statusCode} does not match in response from {$this->host}:{$this->port}{$this->path}", CheckResult::CRITICAL);
-            } elseif ($this->content && !strpos($str, $this->content)) {
-                $result = $this->buildResult("Content {$this->content} not found in response from {$this->host}:{$this->port}{$this->path}", CheckResult::CRITICAL);
-            } else {
-                $result = $this->buildResult('OK', CheckResult::OK);
+                    fclose($fp);
+
+                    $regex = "HTTP\/1\.[10] " . $options['statusCode'];
+                    if ($options['statusCode'] && !preg_match("/$regex/", $str, $matches)) {
+                        $message = "Status code %s to \'%s\' does not match in response from %s:%s%s";
+                        throw new CheckFailedException(
+                            sprintf(
+                                $message,
+                                $options['statusCode'],
+                                $alias,
+                                $options['host'],
+                                $options['port'],
+                                $options['path']
+                            )
+                        );
+                    } elseif ($options['content'] && !strpos($str, $options['content'])) {
+                        $message = "Content %s not found to \'%s\' in response from %s:%s%s";
+                        throw new CheckFailedException(
+                            sprintf(
+                                $message,
+                                $options['content'],
+                                $alias,
+                                $options['host'],
+                                $options['port'],
+                                $options['path']
+                            )
+                        );
+                    }
+                }
             }
+            $result = $this->buildResult('OK', CheckResult::OK);
+        } catch (\Exception $e) {
+            $result = $this->buildResult($e->getMessage(), CheckResult::CRITICAL);
         }
 
         return $result;
+    }
+
+    /**
+     * @param array $hosts
+     * @return      $this
+     */
+    public function setHosts(array $hosts)
+    {
+        $this->hosts = array();
+        foreach ($hosts as $alias => $options) {
+            $this->addHost($alias, $options);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $alias
+     * @param array  $options
+     * @return       $this
+     */
+    public function addHost($alias, array $options)
+    {
+        $this->checkRequiredOptions($options);;
+        $options = $this->mergeDefaultOptions($options);
+        $this->hosts[$alias] = $options;
+
+        return $this;
+    }
+
+    /**
+     * Make merge between options info and value default
+     *
+     * @param array $options
+     * @return array
+     */
+    private function mergeDefaultOptions(array $options)
+    {
+        $defaultOptions = array(
+            'port'       => 80,
+            'path'       => '/',
+            'statusCode' => 200,
+            'content'    => null
+        );
+
+        return $options + $defaultOptions;
+    }
+
+    /**
+     * Check options requireds
+     *
+     * @param $options
+     * @throws \InvalidArgumentException
+     */
+    private function checkRequiredOptions($options)
+    {
+        if (!isset($options['host'])) {
+            throw new InvalidArgumentException('Host is required');
+        }
     }
 
     /**
